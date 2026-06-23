@@ -32,7 +32,8 @@ before the real recording is shared. Swap in the real TIFF on workshop day
 ```
 T4CT-team-8/
 ├── notebooks/
-│   └── T4CT_demo.ipynb     # ← the Colab demo (entry point)
+│   ├── T4CT_demo.ipynb         # ← the Colab demo (entry point)
+│   └── deepinterp_denoise.ipynb # DeepInterpolation denoising (Colab T4)
 ├── src/t4ct/               # importable package (edit here, keep the notebook thin)
 │   ├── data.py             # TIFF IO, summary images, synthetic movie generator
 │   ├── motion.py           # rigid motion-correction baseline (suite2p for full data)
@@ -42,9 +43,11 @@ T4CT-team-8/
 │   └── viz.py              # summary views, footprint overlays, stacked traces
 ├── scripts/
 │   ├── export_suite2p.py        # suite2p .npy outputs -> CSV + figures
+│   ├── deepinterp_denoise.py    # DeepInterpolation CLI (TIFF->H5->TIFF)
 │   └── launch_suite2p_gui.command  # set up + open the local suite2p GUI
 ├── docs/
-│   └── local-gui-and-export.md # local GUI + result-export guide
+│   ├── local-gui-and-export.md # local GUI + result-export guide
+│   └── deepinterpolation.md    # DeepInterpolation denoising guide
 ├── data/                   # the recording (gitignored — use Drive, see below)
 ├── models/                 # checkpoints (gitignored)
 └── requirements.txt        # suite2p + tifffile (torch etc. are preinstalled on Colab)
@@ -63,6 +66,10 @@ Colab — see MouseLand's [run_suite2p_colab](https://colab.research.google.com/
 - **Motion correction** — NoRMCorre, Pnevmatikakis & Giovannucci, *J. Neurosci. Methods* (2017)
 - **Denoising (advanced)** — DeepInterpolation (Lecoq et al., *Nat. Methods* 2021,
   s41592-021-01225-0) and DeepCAD-RT (Li et al., *Nat. Methods* 2021, s41592-021-01285-2)
+
+**DeepInterpolation is set up** — denoise a movie on the T4 with
+`notebooks/deepinterp_denoise.ipynb` (or `scripts/deepinterp_denoise.py`). Guide:
+**[docs/deepinterpolation.md](docs/deepinterpolation.md)**.
 
 ## 📦 Data
 
