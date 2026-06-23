@@ -66,6 +66,21 @@ put it in Google Drive and mount it in the notebook (cell 4). For the 5 GB file
 use `data.load_tiff(path, memmap=True)` to avoid blowing up Colab RAM, or let
 suite2p read the TIFF directly via `segment.run_suite2p(tiff_path, ...)`.
 
+## 📤 Viewing / exporting suite2p results
+
+suite2p saves its outputs as `.npy` files in a `suite2p/plane0` folder, opened
+and curated in the suite2p GUI. To turn them into things you can open **without**
+the GUI — CSVs (Excel/Numbers) and figures (Preview) — run:
+
+```
+python scripts/export_suite2p.py PATH        # PATH = the plane0 folder (or its parent)
+```
+
+It writes `traces_F.csv`, `traces_dff.csv`, `traces_spks.csv`, `cells.csv`,
+`rois.png` and `traces.png` into `<plane0>/export/`. By default it exports only
+the ROIs you accepted as cells in the GUI (`--all` for every ROI). Needs only
+numpy + matplotlib. Point it at a single `.npy` for a quick inspect/CSV dump.
+
 ## 👥 Working as a team
 
 **Code** is shared through this GitHub repo — each person runs their own Colab
