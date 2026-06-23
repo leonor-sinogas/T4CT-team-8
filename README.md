@@ -47,7 +47,8 @@ T4CT-team-8/
 │   └── launch_suite2p_gui.command  # set up + open the local suite2p GUI
 ├── docs/
 │   ├── local-gui-and-export.md # local GUI + result-export guide
-│   └── deepinterpolation.md    # DeepInterpolation denoising guide
+│   ├── deepinterpolation.md    # DeepInterpolation denoising guide
+│   └── troubleshooting.md      # Colab + local gotchas and fixes
 ├── data/                   # the recording (gitignored — use Drive, see below)
 ├── models/                 # checkpoints (gitignored)
 └── requirements.txt        # suite2p + tifffile (torch etc. are preinstalled on Colab)
