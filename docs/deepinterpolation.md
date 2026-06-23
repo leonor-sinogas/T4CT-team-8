@@ -82,10 +82,19 @@ A few epochs on a subset is enough for a hackathon demo.
   PyPI release (0.2.0), which hard-imports `s3fs`. Install from GitHub instead:
   `pip uninstall -y deepinterpolation && pip install --no-deps git+https://github.com/AllenInstitute/deepinterpolation.git`,
   then restart the runtime.
-- **`load_model` fails on a TF version mismatch.** The 2019 `.h5` is old. Try the
-  newer 2021 models in `pretrained_models/ai93/` (e.g.
-  `..._feat_32_power_2_depth_4_unet_True-0100-0.5733.h5`), or pin TF, e.g.
-  `pip install "tensorflow==2.13.*"` (then restart the runtime).
+- **`ValueError: Argument(s) not recognized: {'lr': ...}` (cell 5, in `load_model`).**
+  The pretrained `.h5` carries an old Keras-2 optimizer (`lr`/`decay`) that Keras 3
+  (current Colab TF) rejects. Inference only needs the weights — load with
+  `compile=False`. The notebook does this by patching `load_model`:
+  ```python
+  import deepinterpolation.inference_collection as _ic
+  _orig = _ic.load_model
+  _ic.load_model = lambda path, **kw: _orig(path, **{**kw, "compile": False})
+  ```
+- **Other `load_model` deserialization errors.** Try the newer 2021 models in
+  `pretrained_models/ai93/` (e.g. `..._feat_32_power_2_depth_4_unet_True-0100-0.5733.h5`),
+  or use legacy Keras 2: `pip install tf-keras` and set
+  `os.environ["TF_USE_LEGACY_KERAS"]="1"` **before** importing TensorFlow (then restart).
 - **Out of memory on a big movie.** Process in chunks with `--start/--end`
   (CLI) or `start_frame/end_frame` (notebook), then concatenate.
 - **Wrong frame count.** Expected — see the 60-frame edge loss above.
