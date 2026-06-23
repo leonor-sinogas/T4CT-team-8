@@ -35,10 +35,14 @@ ophys example references.
 ## How to run
 
 ### Colab (recommended)
-Open **`notebooks/deepinterp_denoise.ipynb`** → T4 GPU → Run all. It installs
-DeepInterpolation, downloads the model, and denoises a bundled sample movie. To
-use your data, mount Drive and set `TIF` (cell 4). For the full movie set
-`end_frame=-1` (cell 5).
+Open **`notebooks/deepinterp_denoise.ipynb`** → T4 GPU → Run all. It's the whole
+comparison in one place: installs DeepInterpolation **+ suite2p**, downloads the
+model, denoises a movie, then runs **suite2p on the raw vs the denoised movie**
+and compares **# cells and trace SNR**. To use your data, mount Drive and set
+`TIF` (cell 4); keep `end_frame=-1` (cell 5) for the full movie.
+
+> The first run installs suite2p, which forces a **one-time runtime restart** —
+> just Run all again when it returns.
 
 ### CLI (any machine with deepinterpolation + TF installed)
 ```bash
