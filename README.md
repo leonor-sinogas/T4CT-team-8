@@ -40,6 +40,11 @@ T4CT-team-8/
 │   ├── segment.py          # suite2p pipeline + correlation-image baseline
 │   ├── traces.py           # trace extraction, ΔF/F, neuropil correction
 │   └── viz.py              # summary views, footprint overlays, stacked traces
+├── scripts/
+│   ├── export_suite2p.py        # suite2p .npy outputs -> CSV + figures
+│   └── launch_suite2p_gui.command  # set up + open the local suite2p GUI
+├── docs/
+│   └── local-gui-and-export.md # local GUI + result-export guide
 ├── data/                   # the recording (gitignored — use Drive, see below)
 ├── models/                 # checkpoints (gitignored)
 └── requirements.txt        # suite2p + tifffile (torch etc. are preinstalled on Colab)
@@ -80,6 +85,21 @@ It writes `traces_F.csv`, `traces_dff.csv`, `traces_spks.csv`, `cells.csv`,
 `rois.png` and `traces.png` into `<plane0>/export/`. By default it exports only
 the ROIs you accepted as cells in the GUI (`--all` for every ROI). Needs only
 numpy + matplotlib. Point it at a single `.npy` for a quick inspect/CSV dump.
+
+Full options and the local-GUI workflow: **[docs/local-gui-and-export.md](docs/local-gui-and-export.md)**.
+
+## 🖥️ suite2p GUI (local, desktop)
+
+The suite2p GUI can't run in Colab — it's a desktop app for **curating** ROIs.
+Run it locally to load a downloaded `plane0` folder, accept/reject cells, then
+export. Launch with:
+
+```
+scripts/launch_suite2p_gui.command      # double-click in Finder, or run in Terminal
+```
+
+First run sets up a Python 3.12 venv with `suite2p[gui]`. Details, including
+manual install, are in **[docs/local-gui-and-export.md](docs/local-gui-and-export.md)**.
 
 ## 👥 Working as a team
 
