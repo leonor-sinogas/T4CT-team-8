@@ -95,8 +95,11 @@ def main():
         args.func(args)
     except ImportError as e:
         sys.exit(f"\nMissing dependency: {e}\n"
-                 f"Install with:  pip install deepinterpolation tifffile h5py\n"
-                 f"(Best run on Colab with a T4 GPU — see docs/deepinterpolation.md)")
+                 f"Install with:  pip install --no-deps "
+                 f"git+https://github.com/AllenInstitute/deepinterpolation.git\n"
+                 f"               pip install tifffile h5py nibabel\n"
+                 f"(Install from GitHub, not PyPI — the 0.2.0 release hard-imports s3fs.\n"
+                 f" Best run on Colab with a T4 GPU — see docs/deepinterpolation.md)")
 
 
 if __name__ == "__main__":

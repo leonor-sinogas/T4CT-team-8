@@ -46,7 +46,9 @@ and compares **# cells and trace SNR**. To use your data, mount Drive and set
 
 ### CLI (any machine with deepinterpolation + TF installed)
 ```bash
-pip install deepinterpolation tifffile h5py
+# install from GitHub, not PyPI — the 0.2.0 PyPI release hard-imports s3fs
+pip install --no-deps git+https://github.com/AllenInstitute/deepinterpolation.git
+pip install tifffile h5py nibabel
 
 python scripts/deepinterp_denoise.py infer \
     --tif   /path/recording.tif \
@@ -76,6 +78,10 @@ A few epochs on a subset is enough for a hackathon demo.
 
 ## Troubleshooting
 
+- **`ModuleNotFoundError: No module named 's3fs'` (cell 5).** You installed the
+  PyPI release (0.2.0), which hard-imports `s3fs`. Install from GitHub instead:
+  `pip uninstall -y deepinterpolation && pip install --no-deps git+https://github.com/AllenInstitute/deepinterpolation.git`,
+  then restart the runtime.
 - **`load_model` fails on a TF version mismatch.** The 2019 `.h5` is old. Try the
   newer 2021 models in `pretrained_models/ai93/` (e.g.
   `..._feat_32_power_2_depth_4_unet_True-0100-0.5733.h5`), or pin TF, e.g.
