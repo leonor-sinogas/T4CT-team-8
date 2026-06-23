@@ -1,0 +1,2 @@
+# Trained model checkpoints land here. Contents are gitignored.
+# Save large weights to Google Drive or a Release, not the repo.

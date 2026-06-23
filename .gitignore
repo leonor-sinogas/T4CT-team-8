@@ -1,0 +1,35 @@
+# --- Data & model artifacts (keep the repo light for Colab clones) ---
+data/**
+!data/.gitkeep
+models/**
+!models/.gitkeep
+*.nii
+*.nii.gz
+*.dcm
+*.npy
+*.npz
+*.pt
+*.pth
+*.ckpt
+*.h5
+*.onnx
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.python-version
+
+# --- Notebook outputs are noisy in diffs; clear before committing.
+#     (Comment the next line out if you WANT to commit rendered outputs.)
+# *.ipynb
+
+# --- OS / editor ---
+.DS_Store
+.vscode/
+.idea/
+
+# --- Secrets / local config ---
+.env
+*.local

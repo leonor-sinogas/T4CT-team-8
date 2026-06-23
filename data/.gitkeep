@@ -1,0 +1,2 @@
+# Put datasets here. Contents are gitignored (see .gitignore).
+# For shared data, mount Google Drive in the notebook instead of committing files.

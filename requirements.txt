@@ -1,0 +1,19 @@
+# T4CT — two-photon Ca2+ imaging: denoise + motion-correct + segment + traces
+#
+# torch, numpy, scipy, scikit-image, scikit-learn, matplotlib, pandas, tqdm and
+# tifffile are ALREADY on Colab. Do NOT pin torch — Colab ships its CUDA build.
+#
+# Notebook runs:  pip install -q -r requirements.txt
+# suite2p is the big one (a few minutes). If you hit a numba/numpy error after
+# install, do Runtime > Restart session, then run the cell again.
+
+# --- Core pipeline: motion correction + ROI detection + deconvolution + traces ---
+suite2p>=0.14.0
+
+# --- IO (recent tifffile handles the big multi-page recording well) ---
+tifffile>=2023.7.10
+
+# --- Alternatives / advanced milestone (install on demand; see README) ---
+# caiman               # CNMF pipeline — conda-based, harder to install on Colab
+# deepcad              # DeepCAD-RT self-supervised denoising (PyTorch, uses the T4)
+# deepinterpolation    # DeepInterpolation denoising (TensorFlow)
