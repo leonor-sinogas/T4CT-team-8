@@ -45,18 +45,23 @@ def correlation_segment(mov: np.ndarray, min_corr: float = 0.3,
 # Full pipeline: suite2p
 # --------------------------------------------------------------------------- #
 def run_suite2p(data, save_path: str, fs: float = 30.0, tau: float = 1.0,
-                **ops_kw) -> dict:
-    """Run the suite2p pipeline and return its outputs as a dict.
+                diameter=None, **settings_kw) -> dict:
+    """Run the suite2p pipeline (suite2p >= 1.0 API) and return its outputs.
 
     `data` may be a path to a TIFF (preferred for the real 5 GB file) or an
     in-memory (T, H, W) array (written to a temp TIFF first). suite2p does its
     OWN motion correction, so pass the RAW movie here, not a pre-registered one.
 
-    `tau` is the GCaMP decay timescale in seconds (≈0.7-1.5 depending on the
-    indicator). Returns F, Fneu, spks, stat, iscell, ops, dims, footprints.
+    `fs` = frame rate (Hz). `tau` = GCaMP decay time (s, ≈0.7-1.5 by indicator).
+    `diameter` (px, optional) helps detection. Extra kwargs go into the suite2p
+    `settings` dict. Returns F, Fneu, spks, stat, iscell, ops, dims, footprints.
+
+    Note: suite2p 1.x replaced the old `run_s2p(ops, db)` / `default_ops()` API
+    with `run_s2p(db, settings)` — input files + nplanes/nchannels live in `db`,
+    while fs/tau/diameter live in `settings`.
     """
     import tifffile
-    from suite2p import default_ops, run_s2p
+    from suite2p import run_s2p
 
     os.makedirs(save_path, exist_ok=True)
     if isinstance(data, np.ndarray):
@@ -64,17 +69,22 @@ def run_suite2p(data, save_path: str, fs: float = 30.0, tau: float = 1.0,
         if np.issubdtype(mov.dtype, np.floating):       # suite2p wants integer pixels
             mov = mov - mov.min()
             mov = (mov / (mov.max() + 1e-8) * 60000).astype(np.uint16)
-        tiff_path = os.path.join(save_path, "movie.tif")
-        tifffile.imwrite(tiff_path, mov)
-        data_path, tiff_list = [save_path], ["movie.tif"]
+        input_dir = os.path.join(save_path, "input")   # keep inputs out of the output folder
+        os.makedirs(input_dir, exist_ok=True)
+        tifffile.imwrite(os.path.join(input_dir, "movie.tif"), mov)
+        data_path, file_list = [input_dir], ["movie.tif"]
     else:
-        data_path, tiff_list = [os.path.dirname(str(data))], [os.path.basename(str(data))]
+        data_path = [os.path.dirname(os.path.abspath(str(data)))]
+        file_list = [os.path.basename(str(data))]
 
-    ops = default_ops()
-    ops.update(dict(fs=fs, tau=tau, nplanes=1, nchannels=1))
-    ops.update(ops_kw)
-    db = dict(data_path=data_path, tiff_list=tiff_list, save_path0=save_path)
-    run_s2p(ops=ops, db=db)
+    db = dict(data_path=data_path, file_list=file_list, save_path0=save_path,
+              nplanes=1, nchannels=1, input_format="tif")
+    settings = dict(fs=fs, tau=tau)
+    if diameter is not None:
+        settings["diameter"] = [diameter, diameter] if np.isscalar(diameter) else list(diameter)
+    settings.update(settings_kw)
+
+    run_s2p(db=db, settings=settings)
     return load_suite2p_output(os.path.join(save_path, "suite2p", "plane0"))
 
 
