@@ -14,9 +14,11 @@ demo running on a free Tesla **T4** GPU.
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/leonor-sinogas/T4CT-team-8/blob/main/notebooks/T4CT_demo.ipynb)
 
 Click the badge → `Runtime → Change runtime type → T4 GPU` → `Runtime → Run all`.
-The notebook runs the **whole pipeline on a built-in synthetic movie**, so it
-works *today* — before the real recording is shared. Swap in the real TIFF on
-workshop day (cell 4).
+On the **first** run the install cell restarts the runtime once (suite2p needs a
+fresh numpy/numba) — just **Run all again** when it returns. The notebook then
+runs the **whole pipeline on a built-in synthetic movie**, so it works *today* —
+before the real recording is shared. Swap in the real TIFF on workshop day
+(the *Load the data* cell).
 
 ## 🎯 Milestones (from the brief)
 
@@ -47,7 +49,9 @@ T4CT-team-8/
 
 The reference pipelines do motion correction + source extraction + deconvolution
 out of the box. We default to **suite2p** (easiest to `pip install` and run
-headless on Colab); **CaImAn** is a strong alternative but harder to install.
+headless on Colab — only its GUI needs a display, which we don't use); **CaImAn**
+is a strong alternative but harder to install. suite2p is officially supported on
+Colab — see MouseLand's [run_suite2p_colab](https://colab.research.google.com/github/MouseLand/suite2p/blob/main/jupyter/run_suite2p_colab_2021.ipynb).
 
 - **suite2p** — https://github.com/MouseLand/suite2p (our engine: `segment.run_suite2p`)
 - **CaImAn** — https://github.com/flatironinstitute/caiman

@@ -3,12 +3,14 @@
 # torch, numpy, scipy, scikit-image, scikit-learn, matplotlib, pandas, tqdm and
 # tifffile are ALREADY on Colab. Do NOT pin torch — Colab ships its CUDA build.
 #
-# Notebook runs:  pip install -q -r requirements.txt
-# suite2p is the big one (a few minutes). If you hit a numba/numpy error after
-# install, do Runtime > Restart session, then run the cell again.
+# suite2p runs headless on Colab via its Python API (run_s2p) — no GUI needed.
+# It pulls a numpy/numba combo that differs from Colab's default (numba needs
+# numpy <= 2.2), so a ONE-TIME runtime restart is required after the first
+# install. The notebook's install cell does this automatically (it restarts the
+# runtime; just Run all again and it skips ahead).
 
 # --- Core pipeline: motion correction + ROI detection + deconvolution + traces ---
-suite2p>=0.14.0
+suite2p>=1.0,<2
 
 # --- IO (recent tifffile handles the big multi-page recording well) ---
 tifffile>=2023.7.10
